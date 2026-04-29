@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinic Allure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="https://i.ibb.co/xKwN70JG/S-mbolo-terracota.png">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --terracota: #9f5940;
+    --terracota-light: #b87860;
+    --terracota-pale: #f5ece8;
+    --off-white: #faf8f5;
+    --cream: #f2ede7;
+    --black: #1a1a1a;
+    --grey: #6b6460;
+    --grey-light: #d4cdc8;
+    --font-serif: 'Libre Baskerville', Georgia, serif;
+    --font-display: 'Cormorant Garamond', 'Libre Baskerville', serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-serif);
+    background: var(--off-white);
+    color: var(--black);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(250,248,245,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(159,89,64,0.12);
+    transition: padding .3s ease;
+  }
+  nav.scrolled { padding: 14px 48px; }
+  .nav-logo img { height: 44px; object-fit: contain; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-serif);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--black);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity .2s, color .2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--terracota); }
+  .nav-cta {
+    font-family: var(--font-serif);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--off-white);
+    background: var(--terracota);
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .2s;
+  }
+  .nav-cta:hover { background: var(--terracota-light); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--black); transition: .3s; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+    overflow: hidden;
+    background: var(--off-white);
+  }
+  .hero-bg-ornament {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(159,89,64,0.07) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hero-line-left, .hero-line-right {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(159,89,64,0.18), transparent);
+  }
+  .hero-line-left { left: 10%; }
+  .hero-line-right { right: 10%; }
+  .hero-eyebrow {
+    font-family: var(--font-serif);
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 32px;
+    opacity: 0; animation: fadeUp .8s .2s forwards;
+  }
+  .hero-logo {
+    margin-bottom: 40px;
+    opacity: 0; animation: fadeUp .8s .35s forwards;
+  }
+  .hero-logo img { height: 110px; object-fit: contain; }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--black);
+    line-height: 1.25;
+    max-width: 680px;
+    opacity: 0; animation: fadeUp .8s .5s forwards;
+  }
+  .hero-divider {
+    width: 48px; height: 1px;
+    background: var(--terracota);
+    margin: 28px auto;
+    opacity: 0; animation: fadeUp .8s .65s forwards;
+  }
+  .hero-sub {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--grey);
+    letter-spacing: 0.04em;
+    max-width: 420px;
+    opacity: 0; animation: fadeUp .8s .8s forwards;
+  }
+  .hero-sub strong { color: var(--terracota); font-weight: 400; }
+  .hero-btn {
+    margin-top: 44px;
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--terracota);
+    color: var(--off-white);
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 18px 40px;
+    border: 1px solid var(--terracota);
+    transition: background .3s, color .3s, transform .2s;
+    opacity: 0; animation: fadeUp .8s .95s forwards;
+  }
+  .hero-btn:hover { background: transparent; color: var(--terracota); transform: translateY(-2px); }
+  .hero-btn svg { flex-shrink: 0; }
+  .hero-scroll-hint {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0; animation: fadeUp .8s 1.2s forwards;
+  }
+  .hero-scroll-hint span {
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); opacity: .6;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--terracota), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 100px 24px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--font-serif);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--black);
+    line-height: 1.2;
+  }
+  .section-divider {
+    width: 40px; height: 1px; background: var(--terracota); margin: 24px 0;
+  }
+
+  /* ── SOBRE ── */
+  #sobre { background: var(--cream); }
+  .sobre-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .sobre-img-wrap {
+    position: relative;
+  }
+  .sobre-img-frame {
+    width: 100%; aspect-ratio: 4/5;
+    background: linear-gradient(135deg, var(--terracota-pale) 0%, var(--cream) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .sobre-img-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239f5940' fill-opacity='0.06'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .sobre-symbol {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 60%; opacity: 0.22;
+  }
+  .sobre-border-accent {
+    position: absolute;
+    bottom: -16px; right: -16px;
+    width: 80%; height: 80%;
+    border: 1px solid rgba(159,89,64,0.25);
+    z-index: -1;
+  }
+  .sobre-text .section-title { margin-bottom: 0; }
+  .sobre-body {
+    margin-top: 8px;
+    font-size: 0.92rem;
+    line-height: 2;
+    color: var(--grey);
+  }
+  .sobre-quote {
+    margin-top: 36px;
+    padding: 24px 28px;
+    border-left: 2px solid var(--terracota);
+    background: rgba(159,89,64,0.04);
+  }
+  .sobre-quote p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--terracota);
+    line-height: 1.5;
+  }
+  .sobre-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-top: 32px;
+    padding: 14px 20px;
+    border: 1px solid var(--grey-light);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--grey);
+  }
+  .sobre-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--terracota); flex-shrink: 0; }
+
+  /* ── SERVIÇOS ── */
+  #servicos { background: var(--off-white); }
+  .servicos-header { text-align: center; max-width: 540px; margin: 0 auto 64px; }
+  .servicos-header .section-divider { margin: 24px auto; }
+  .servicos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .servico-card {
+    background: var(--cream);
+    padding: 48px 36px;
+    display: flex; flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: background .3s;
+    cursor: default;
+  }
+  .servico-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--terracota);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .4s ease;
+  }
+  .servico-card:hover { background: #eee7e1; }
+  .servico-card:hover::after { transform: scaleX(1); }
+  .servico-icon {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .servico-icon svg { width: 32px; height: 32px; stroke: var(--terracota); fill: none; stroke-width: 1.2; }
+  .servico-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--black);
+  }
+  .servico-desc {
+    font-size: 0.8rem;
+    line-height: 1.8;
+    color: var(--grey);
+  }
+  .servico-num {
+    position: absolute; top: 20px; right: 24px;
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 300;
+    color: rgba(159,89,64,0.08);
+    line-height: 1;
+  }
+
+  /* ── LOCALIZAÇÃO ── */
+  #localizacao { background: var(--black); color: var(--off-white); padding: 80px 24px; }
+  .loc-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .loc-label { color: rgba(250,248,245,0.5); }
+  .loc-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 300; font-style: italic;
+    color: var(--off-white);
+    line-height: 1.25;
+  }
+  .loc-divider { background: rgba(250,248,245,0.2); }
+  .loc-address {
+    font-size: 0.85rem; line-height: 2;
+    color: rgba(250,248,245,0.65);
+    border-left: 1px solid rgba(159,89,64,0.5);
+    padding-left: 20px;
+  }
+  .loc-address strong { display: block; color: var(--terracota-light); font-weight: 400; margin-bottom: 4px; }
+  .loc-map-placeholder {
+    aspect-ratio: 1;
+    background: #252525;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+    border: 1px solid #333;
+    position: relative;
+    overflow: hidden;
+  }
+  .loc-map-placeholder::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(159,89,64,0.12) 0%, transparent 65%);
+  }
+  .loc-map-icon svg { width: 40px; height: 40px; stroke: var(--terracota); fill: none; stroke-width: 1; }
+  .loc-map-text { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(250,248,245,0.35); }
+
+  /* ── CONTATO ── */
+  #contato { background: var(--terracota-pale); }
+  .contato-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+  .contato-inner .section-divider { margin: 24px auto; }
+  .contato-inner .section-title { margin-bottom: 8px; }
+  .contato-sub {
+    font-size: 0.85rem; color: var(--grey); line-height: 1.8; margin-bottom: 52px;
+  }
+  .contato-links {
+    display: flex; justify-content: center; gap: 32px; margin-bottom: 48px; flex-wrap: wrap;
+  }
+  .contato-link {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--black);
+    font-size: 0.8rem; letter-spacing: 0.08em;
+    transition: color .2s;
+  }
+  .contato-link:hover { color: var(--terracota); }
+  .contato-link-icon {
+    width: 52px; height: 52px;
+    border: 1px solid rgba(159,89,64,0.35);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    transition: background .2s, border-color .2s;
+  }
+  .contato-link:hover .contato-link-icon { background: var(--terracota); border-color: var(--terracota); }
+  .contato-link:hover .contato-link-icon svg { stroke: white; }
+  .contato-link-icon svg { width: 30px; height: 30px; stroke: var(--terracota); fill: none; stroke-width: 1.5; transition: stroke .2s; }
+  .contato-btn {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: var(--black); color: var(--off-white);
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 20px 52px;
+    border: 1px solid var(--black);
+    transition: background .3s, color .3s;
+  }
+  .contato-btn:hover { background: transparent; color: var(--black); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    padding: 52px 48px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 24px;
+    border-top: 1px solid #2a2a2a;
+  }
+  .footer-logo img { height: 36px; object-fit: contain; opacity: .85; }
+  .footer-copy {
+    font-size: 0.68rem; letter-spacing: 0.12em;
+    color: rgba(250,248,245,0.3); text-align: center;
+  }
+  .footer-insta {
+    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(250,248,245,0.4); text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-insta:hover { color: var(--terracota-light); }
+
+  /* ── FLOAT WA ── */
+  .wa-float {
+    position: fixed; bottom: 28px; right: 28px; z-index: 200;
+    width: 56px; height: 56px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .wa-float:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(37,211,102,0.5); }
+  .wa-float svg { width: 28px; height: 28px; fill: white; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: .15s; }
+  .reveal-delay-2 { transition-delay: .3s; }
+  .reveal-delay-3 { transition-delay: .45s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 99;
+      background: var(--off-white);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+      opacity: 0; pointer-events: none; transition: opacity .3s;
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a {
+      font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--black); text-decoration: none;
+      padding: 10px 0; min-height: 44px; display: flex; align-items: center;
+    }
+    .sobre-grid { grid-template-columns: 1fr; gap: 40px; }
+    .sobre-img-wrap { max-width: 360px; margin: 0 auto; }
+    .servicos-grid { grid-template-columns: 1fr; gap: 2px; }
+    .loc-inner { grid-template-columns: 1fr; gap: 40px; }
+    footer { flex-direction: column; align-items: center; text-align: center; }
+    .hamburger { min-width: 44px; min-height: 44px; justify-content: center; }
+  }
+  @media (max-width: 600px) {
+    section { padding: 72px 20px; }
+    .hero-logo img { height: 68px; }
+    .hero-btn { padding: 16px 28px; font-size: 0.65rem; }
+    .hero-sub br { display: none; }
+    .hero-scroll-hint { display: none; }
+    .servico-card { padding: 36px 24px; }
+    .servico-card[style*="grid-column"] { grid-column: span 1 !important; }
+    .contato-links { gap: 20px; }
+    .contato-btn { padding: 18px 28px; width: 100%; justify-content: center; text-align: center; box-sizing: border-box; }
+    footer { padding: 40px 20px 32px; }
+    .loc-map-placeholder { aspect-ratio: 4/3; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">
+    <img src="https://i.ibb.co/GfvHcM9M/Isologo-preta.png" alt="Clinic Allure">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#localizacao">Localização</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a class="nav-cta" href="https://wa.me/5561996123232?text=Olá,%20gostaria%20de%20agendar%20uma%20consulta!" target="_blank">Agendar</a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#sobre" onclick="closeMobile()">Sobre</a>
+  <a href="#servicos" onclick="closeMobile()">Serviços</a>
+  <a href="#localizacao" onclick="closeMobile()">Localização</a>
+  <a href="#contato" onclick="closeMobile()">Contato</a>
+  <a href="https://wa.me/5561996123232?text=Olá,%20gostaria%20de%20agendar%20uma%20consulta!" target="_blank" style="color:var(--terracota)">Agendar Consulta</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-ornament"></div>
+  <div class="hero-line-left"></div>
+  <div class="hero-line-right"></div>
+
+  <p class="hero-eyebrow">Clínica de Estética · Brasília</p>
+
+  <div class="hero-logo">
+    <img src="https://i.ibb.co/h1dj5T2G/Logomarca-Terracota.png" alt="Clinic Allure">
+  </div>
+
+  <h1 class="hero-title">Beleza natural, harmonia e confiança em cada detalhe.</h1>
+
+  <div class="hero-divider"></div>
+
+  <p class="hero-sub">
+    Atendimento especializado em Harmonização Facial com a<br>
+    <strong>Dra. Michaella Aires</strong>
+  </p>
+
+  <a class="hero-btn" href="https://wa.me/5561996123232?text=Olá,%20gostaria%20de%20agendar%20uma%20consulta!" target="_blank">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Agendar consulta via WhatsApp
+  </a>
+
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="section-inner sobre-grid">
+    <div class="sobre-img-wrap reveal">
+      <div class="sobre-img-frame">
+        <img src="https://i.ibb.co/kVztSfQ0/S-mbolo-terracota.png" alt="Símbolo Allure" class="sobre-symbol">
+      </div>
+      <div class="sobre-border-accent"></div>
+    </div>
+    <div class="sobre-text">
+      <p class="section-label reveal">Sobre a Especialista</p>
+      <h2 class="section-title reveal reveal-delay-1">Dra. Michaella Aires</h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+      <p class="sobre-body reveal reveal-delay-2">
+        Dra. Michaella Aires é especialista em Harmonização Facial, com foco em realçar a beleza natural de cada paciente de forma leve, segura e personalizada. Seu atendimento é humanizado, priorizando resultados harmônicos e sofisticados.
+      </p>
+      <div class="sobre-quote reveal reveal-delay-3">
+        <p>"A verdadeira beleza está no equilíbrio."</p>
+      </div>
+      <div class="sobre-badge reveal reveal-delay-3">
+        <div class="sobre-badge-dot"></div>
+        Harmonização Facial · Atendimento Especializado
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="section-inner">
+    <div class="servicos-header">
+      <p class="section-label reveal">Procedimentos</p>
+      <h2 class="section-title reveal">Nossos Serviços</h2>
+      <div class="section-divider reveal"></div>
+      <p class="reveal" style="font-size:.82rem;color:var(--grey);line-height:1.8;">Tratamentos estéticos personalizados com técnicas avançadas para realçar sua beleza de forma natural e segura.</p>
+    </div>
+    <div class="servicos-grid">
+
+      <div class="servico-card reveal">
+        <div class="servico-num">01</div>
+        <div class="servico-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/><path d="M17 3s2 1.5 2 4"/><path d="M7 3S5 4.5 5 7"/></svg>
+        </div>
+        <div class="servico-name">Harmonização Facial</div>
+        <p class="servico-desc">Procedimento completo que equilibra proporções do rosto, realçando beleza de forma natural e harmônica.</p>
+      </div>
+
+      <div class="servico-card reveal reveal-delay-1">
+        <div class="servico-num">02</div>
+        <div class="servico-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9" stroke-linecap="round" stroke-width="2"/><line x1="15" y1="9" x2="15.01" y2="9" stroke-linecap="round" stroke-width="2"/></svg>
+        </div>
+        <div class="servico-name">Preenchimento Labial</div>
+        <p class="servico-desc">Define e volumiza os lábios com ácido hialurônico, para um resultado suave e sofisticado.</p>
+      </div>
+
+      <div class="servico-card reveal reveal-delay-2">
+        <div class="servico-num">03</div>
+        <div class="servico-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="servico-name">Botox</div>
+        <p class="servico-desc">Toxina botulínica aplicada com precisão para suavizar linhas de expressão e promover rejuvenescimento natural.</p>
+      </div>
+
+      <div class="servico-card reveal">
+        <div class="servico-num">04</div>
+        <div class="servico-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
+        <div class="servico-name">Bioestimuladores</div>
+        <p class="servico-desc">Estimulam a produção natural de colágeno, promovendo firmeza, elasticidade e luminosidade à pele.</p>
+      </div>
+
+      <div class="servico-card reveal reveal-delay-1" style="grid-column: span 2;">
+        <div class="servico-num">05</div>
+        <div class="servico-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="servico-name">Harmonização Full Face</div>
+        <p class="servico-desc">Protocolo completo e exclusivo de harmonização facial global, combinando múltiplas técnicas para uma transformação elegante, equilibrada e personalizada.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LOCALIZAÇÃO -->
+<section id="localizacao">
+  <div class="loc-inner">
+    <div>
+      <p class="section-label loc-label reveal">Onde Nos Encontrar</p>
+      <h2 class="section-title loc-title reveal">Venha nos visitar em Brasília</h2>
+      <div class="section-divider loc-divider reveal" style="margin:24px 0;"></div>
+      <div class="loc-address reveal">
+        <strong>Endereço</strong>
+        Centro Clínico Júlio Adnet<br>
+        Bloco A, Sala 102<br>
+        Brasília – DF
+      </div>
+    </div>
+    <div class="loc-map-placeholder reveal">
+      <div class="loc-map-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <span class="loc-map-text">Centro Clínico Júlio Adnet · BL A, Sala 102</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="section-inner contato-inner">
+    <p class="section-label reveal">Fale Conosco</p>
+    <h2 class="section-title reveal">Agende sua experiência</h2>
+    <div class="section-divider reveal"></div>
+    <p class="contato-sub reveal">
+      Damos início à sua jornada de beleza com uma consulta personalizada.<br>
+      Entre em contato e descubra o potencial da sua harmonia facial.
+    </p>
+
+    <div class="contato-links reveal">
+      <a class="contato-link" href="https://instagram.com/dramichaellaaires" target="_blank">
+        <div class="contato-link-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-instagram"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4l0 -8" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M16.5 7.5v.01" /></svg>
+        </div>
+        @dramichaellaaires
+      </a>
+      <a class="contato-link" href="https://wa.me/5561996123232?text=Olá,%20gostaria%20de%20agendar%20uma%20consulta!" target="_blank">
+        <div class="contato-link-icon">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-whatsapp"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg>
+        </div>
+         +55 61 99612-3232
+      </a>
+    </div>
+
+    <a class="contato-btn reveal" href="https://wa.me/5561996123232?text=Olá,%20gostaria%20de%20agendar%20uma%20consulta!" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-whatsapp"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg>
+      Agendar sua experiência
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="https://i.ibb.co/PZ2xqrLD/Logomarca-Branca.png" alt="Clinic Allure">
+  </div>
+  <a class="footer-insta" href="https://instagram.com/dramichaellaaires" target="_blank">@dramichaellaaires</a>
+  <a href="https://nexarsite.github.io/landing/" target="_blank">
+    <img src="https://i.ibb.co/nqJhy0pj/IMG-1477.png" alt="Nexar Logo" style="height: 40px; width: auto;">
+  </a>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a class="wa-float" href="https://wa.me/5561996123232?text=Olá,%20gostaria%20de%20agendar%20uma%20consulta!" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobile() { mobileMenu.classList.remove('open'); }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Servico card last span fix
+  const cards = document.querySelectorAll('.servico-card');
+  cards.forEach((c,i) => { c.style.transitionDelay = (i % 3 * 0.15) + 's'; });
+</script>
+</body>
+</html>
